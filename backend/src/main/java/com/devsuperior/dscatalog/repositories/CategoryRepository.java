@@ -1,7 +1,7 @@
-/* Pacote que disponibiliza a Camada de acesso a DADOS com JPA Repository")
- * Interface de acesso aos dados da "Entidade Category"
- * @Repository registra esta classe como um componente Injetável
- * do sistema de injeção de dependêcia automatizado do Spring"
+/* Pacote que disponibiliza a Camada de acesso a DADOS com JPA Repository").
+ * Interface de acesso aos dados da "Entidade Category".
+ * @Repository registra esta classe como um componente Injetável.
+ * do sistema de injeção de dependêcia automatizado do Spring".
  * */
 package com.devsuperior.dscatalog.repositories;
 
