@@ -6,15 +6,15 @@
  */
 package com.devsuperior.dscatalog.services;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,22 +32,30 @@ public class CategoryService {
 	private CategoryRepository repository;
 
 	// metodos
+	//sem paginação
+	/* @Transactional(readOnly = true) public List<CategoryDTO> findAll() {
+	 * List<Category> list = repository.findAll(); return list.stream().map(x -> new
+	 * CategoryDTO(x)).collect(Collectors.toList());
+	 * 
+	 * // Expressão Lambida - convertendo a lista Category para CategoryDTO
+	 * 
+	 * List<CategoryDTO> listDto = list.stream().map(x -> new
+	 * CategoryDTO(x)).collect(Collectors.toList()); return listDto;
+	 * 
+	 * 
+	 * // Convencional - convertendo a lista Category para CategoryDTO
+	 * 
+	 * List<CategoryDTO> listDto = new ArrayList<>(); for (Category cat : list) {
+	 * listDto.add(new CategoryDTO(cat)); } return listDto;
+	 * 
+	 * }
+	 */
+	
+	//com paginação
 	@Transactional(readOnly = true)
-	public List<CategoryDTO> findAll() {
-		List<Category> list = repository.findAll();
-		return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
-
-		// Expressão Lambida - convertendo a lista Category para CategoryDTO
-		/*
-		 * List<CategoryDTO> listDto = list.stream().map(x -> new
-		 * CategoryDTO(x)).collect(Collectors.toList()); return listDto;
-		 */
-
-		// Convencional - convertendo a lista Category para CategoryDTO
-		/*
-		 * List<CategoryDTO> listDto = new ArrayList<>(); for (Category cat : list) {
-		 * listDto.add(new CategoryDTO(cat)); } return listDto;
-		 */
+	public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
+		Page<Category> list = repository.findAll(pageRequest);
+		return list.map(x -> new CategoryDTO(x));
 	}
 
 	@Transactional(readOnly = true)
@@ -74,21 +82,18 @@ public class CategoryService {
 			entity = repository.save(entity);
 
 			return new CategoryDTO(entity);
-		}
-		catch (EntityNotFoundException e) {
+		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id Not Found " + id);
 		}
 	}
-	
-	//Sem @Transaction para possibilitar captura da excessão
+
+	// Sem @Transaction para possibilitar captura da excessão
 	public void delete(Long id) {
 		try {
-		repository.deleteById(id);
-		}
-		catch (EmptyResultDataAccessException e) {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id Not Found! " + id);
-		}
-		catch (DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("integrity Violation!");
 		}
 	}
