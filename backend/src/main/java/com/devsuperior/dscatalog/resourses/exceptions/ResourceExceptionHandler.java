@@ -1,4 +1,4 @@
-/* Classe do Spring "@ControllerAdvice" responsável por interceptar @@ExceptionHandler
+/* Classe do Spring "@ControllerAdvice" responsável por interceptar @ExceptionHandler
  * as exceções na camada de Resource(Controller) para não ficar implementando try/cacth
  * em todo método da camada que precise fazer um tratamento de execeção. */
 package com.devsuperior.dscatalog.resourses.exceptions;
@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.devsuperior.dscatalog.services.execeptions.DatabaseException;
 import com.devsuperior.dscatalog.services.execeptions.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -20,12 +21,25 @@ public class ResourceExceptionHandler {
 	 * tipo StandardError, pois a estrutura de erro será customizado. */
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
-		err.setStatus(HttpStatus.NOT_FOUND.value());
+		err.setStatus(status .value());
 		err.setError("Resource Not Found!");
 		err.setMessage(e.getMessage()); //mensagem setado no service
 		err.setPath(request.getRequestURI());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(err);
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<StandardError> entityNotFound(DatabaseException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(status.value());
+		err.setError("DataBase Exception!");
+		err.setMessage(e.getMessage()); //mensagem setado no service
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
 	}
 }
