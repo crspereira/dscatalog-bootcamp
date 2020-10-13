@@ -1,9 +1,27 @@
-import React from 'react';
-import { Link  } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ProductCard from './components/ProductCard';
 import './styles.scss';
 
+
 const Catalog = () => {
+    /*Passo1: Quando o componente iniciar, buscar lista de produtos de maneira assincrona
+              acessando o ciclo de vida dele com "useEffect(function () {}, []);"
+              ou "useEffect(() => {}, []);"
+     *Passo2: Quando a lista de produtos estiver disponível, popular
+              um estado no componente e listá-las dinamicamente */
+
+    //Passo1:
+    useEffect(() => {
+        console.log("Componente de Listagem iniciado!");
+        /*fetch maneira mais simples e pouco profissional de acessar os dados
+         *possui limitações: muito verboso, não suporta nativamente barra de progresso e query strings*/
+        fetch('http://localhost:3000/products') //o Java acessa a api com proxy configurado no "package.json"
+            .then(response => response.json()) // converte a promise resolvida em json
+            .then(response => console.log(response)); //imprime a promise com o dados da API
+ 
+    }, [])
+
     return (
         <div className="catalog-container">
             <h1 className="catalog-title">
