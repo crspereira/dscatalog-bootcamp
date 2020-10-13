@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Axios from 'axios';
 import ProductCard from './components/ProductCard';
 import './styles.scss';
 
@@ -16,9 +17,8 @@ const Catalog = () => {
         console.log("Componente de Listagem iniciado!");
         /*fetch maneira mais simples e pouco profissional de acessar os dados
          *possui limitações: muito verboso, não suporta nativamente barra de progresso e query strings*/
-        fetch('http://localhost:3000/products') //o Java acessa a api com proxy configurado no "package.json"
-            .then(response => response.json()) // converte a promise resolvida em json
-            .then(response => console.log(response)); //imprime a promise com o dados da API
+        Axios('http://localhost:3000/products') //o Java acessa a api com proxy configurado no "package.json"
+            .then(response => console.log(response)); //imprime a promise com o dados da API ja em json
  
     }, [])
 
