@@ -15,7 +15,7 @@ const Catalog = () => {
     useEffect(() => {
         const params = {
             page: 0,
-            linesPerPage: 5
+            linesPerPage: 12
         }
         //makeRequest é uma função personalizada armazenda na pasta utils retornando o axios
         makeRequest( { url:'/products', params } )
@@ -29,8 +29,8 @@ const Catalog = () => {
             </h1>
             <div className="catalog-products">
                 { productsResponse?.content.map(product => (
-                    <Link to="/products/1" key={ product.id }>
-                        <ProductCard />
+                    <Link to={`/products/${product.id}`} key={ product.id }>
+                        <ProductCard product={product}/>
                     </Link>
                 )) }
             </div>
