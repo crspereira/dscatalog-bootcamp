@@ -1,0 +1,49 @@
+.pagination-container {
+   margin-top: 35px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   //border: 1px solid #407BFF;
+   
+}
+
+.pagination-item {
+   width: 40px;
+   height: 40px;
+   background-color: #E1E1E1;
+   border-radius: 50%;
+   font-weight: bold;
+   font-size: 18px;
+   line-height: 25px;
+   letter-spacing: -0.015em;
+   color: #FFFFFF;
+   display: flex; //permite centralizar numero
+   align-items: center; //centraliza numero
+   justify-content: center; //centraliza numero
+   cursor: pointer;
+   margin-right: 10px;
+
+   &.active {
+      background-color: #407BFF;
+   }
+}
+
+   .pagination-previous {
+      margin-right: 25px;
+      transform: rotate(-180deg); 
+   }
+
+   .pagination-next {
+      margin-left: 15px;
+      transform: rotate(0deg);
+   }
+
+   .page-active {
+      cursor: pointer;
+      color: #407BFF;
+   }
+   
+   .page-inactive {
+      color: #E1E1E1;
+      pointer-events: none;
+   }

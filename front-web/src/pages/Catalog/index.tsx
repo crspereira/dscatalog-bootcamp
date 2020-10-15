@@ -5,17 +5,19 @@ import { makeRequest } from 'core/utils/request';
 import ProductCard from './components/ProductCard';
 import ProductCardLoader from './components/Loaders/ProductCardLoader';
 import './styles.scss';
-
+import Pagination from 'core/components/Pagination';
 
 const Catalog = () => {
     //Passo2: lista componente
     const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
     const [isLoading, setIsLoading] = useState(false);
+    //reprenta a pagina ativa que estará sendo randerizada
+    const [activePage, setActivePage] = useState(1);
 
     //Passo1: inicia componente
     useEffect(() => {
         const params = {
-            page: 0,
+            page: activePage,
             linesPerPage: 12
         }
         //inica o loader
@@ -27,7 +29,7 @@ const Catalog = () => {
         .finally(() => {
             setIsLoading(false);
         })       
-    }, []);
+    }, [activePage]);
 
     return (
         <div className="catalog-container">
@@ -43,6 +45,14 @@ const Catalog = () => {
                     ))
                 )}
             </div>
+            {productsResponse && (
+                <Pagination 
+                    totalPages={productsResponse.totalPages}
+                    activePage={activePage}
+                    //invoka a função que passa o item da pagina clicada
+                    onChange={page => setActivePage(page)}
+                    />
+                )}
         </div>
     );
 }
