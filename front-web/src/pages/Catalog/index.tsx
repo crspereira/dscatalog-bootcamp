@@ -11,7 +11,7 @@ const Catalog = () => {
     //Passo2: lista componente
     const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
     const [isLoading, setIsLoading] = useState(false);
-    //reprenta a pagina ativa que estará sendo randerizada
+    //representa a pagina ativa que estará sendo randerizada
     const [activePage, setActivePage] = useState(1);
 
     //Passo1: inicia componente
