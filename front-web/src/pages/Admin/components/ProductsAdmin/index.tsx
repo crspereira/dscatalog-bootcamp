@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
+import BaseFormAdmin from '../BaseFormAdmin';
+import ProductForm from './ProductForm';
+import ProductsAdminList from './ProductsAdminList';
 import './styles.scss';
 
 const ProductsAdmin = () => {
@@ -17,10 +20,10 @@ const ProductsAdmin = () => {
 
          <Switch>
             <Route path="/admin/products" exact>
-               <h1>Product Listing</h1>
+               <ProductsAdminList />
             </Route>
             <Route path="/admin/products/create">
-               <h1>Product Creating</h1>
+               <ProductForm />
             </Route>
             <Route path="/admin/products/:productId">
                <h1>ProductId Editing</h1>
