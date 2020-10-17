@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import BaseFormAdmin from '../BaseFormAdmin';
 import ProductForm from './ProductForm';
 import ProductsAdminList from './ProductsAdminList';
 import './styles.scss';
