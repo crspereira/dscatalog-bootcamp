@@ -7,27 +7,27 @@ package com.devsuperior.dscatalog.dto;
 
 import java.io.Serializable;
 
-import com.devsuperior.dscatalog.entities.Category;
+import com.devsuperior.dscatalog.entities.Role;
 
-public class CategoryDTO implements Serializable {
+public class RoleDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 		//variaveis de instância
 		private Long id;
-		private String name;
+		private String authority;
 		
 		//contrutores
-		public CategoryDTO() {
+		public RoleDTO() {
 		}
-		public CategoryDTO(Long id, String name) {
+		public RoleDTO(Long id, String authority) {
 			this.id = id;
-			this.name = name;
-		} //contrutor com a entity para facilitar o povamento na instanciação
-		public CategoryDTO(Category entity) {
-			id = entity.getId();
-			name = entity.getName();
+			this.authority = authority;
 		}
-		
+		public RoleDTO(Role entity) {
+			id = entity.getId();
+			authority = entity.getAuthority();
+		}
+
 		//geters e setters
 		public Long getId() {
 			return id;
@@ -35,11 +35,10 @@ public class CategoryDTO implements Serializable {
 		public void setId(Long id) {
 			this.id = id;
 		}
-		public String getName() {
-			return name;
+		public String getAuthority() {
+			return authority;
 		}
-		public void setName(String name) {
-			this.name = name;
+		public void setAuthority(String authority) {
+			this.authority = authority;
 		}
-	
 }
