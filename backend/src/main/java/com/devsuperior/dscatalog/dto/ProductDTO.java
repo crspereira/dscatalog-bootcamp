@@ -24,7 +24,7 @@ public class ProductDTO implements Serializable {
 
 	// variaveis de instância
 	private Long id;
-	@Size(min = 5, max = 60, message = "Tamanho deve estar entre 5 e 60 Caracteres")
+	@Size(min = 5, max = 60, message = "Deve estar entre 5 e 60 Caracteres")
 	@NotBlank(message = "Campo Obrigatório")
 	private String name;
 	@NotBlank(message = "Campo Requerido")
