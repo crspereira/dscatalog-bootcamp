@@ -9,6 +9,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.devsuperior.dscatalog.entities.User;
 
 public class UserDTO implements Serializable {
@@ -16,8 +20,11 @@ public class UserDTO implements Serializable {
 	
 		//variaveis de instância
 		private Long id;
+		@Size(min = 5, max = 60, message = "Tamanho deve estar entre 5 e 60 Caracteres")
+		@NotBlank(message = "Campo Obrigatório")
 		private String firstName;
 		private String lastName;
+		@Email(message = "Entre Com um E-mail Válido")
 		private String email;
 		
 		//dependecias
