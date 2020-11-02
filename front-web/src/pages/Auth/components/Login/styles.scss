@@ -1,0 +1,47 @@
+.login-container {
+  padding: 0px 0px 0px 0px;
+}
+
+.login-form {
+   margin-top: 80px;
+}
+
+.login-link-recover {
+  margin-top: 15px;
+  font-size: 18px;
+  line-height: 25px;
+  letter-spacing: -0.015em;
+  color: #407BFF;
+  display: block; //deixa aplicar o margin-top no elemento link
+}
+
+.login-submit {
+  margin: 100px 0px 35px 0px;
+}
+
+.not-registered-content {
+  //padding-bottom: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.not-registered-content-text{
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: center;
+  letter-spacing: -0.015em;
+  color: #9E9E9E;
+}
+
+.not-registered-link-register{
+  padding-left: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: center;
+  letter-spacing: -0.015em;
+  text-decoration-line: underline;
+  text-transform: uppercase;
+  color: #407BFF;
+}
