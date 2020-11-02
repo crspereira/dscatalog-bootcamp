@@ -1,4 +1,5 @@
 import ButtonIcon from 'core/components/ButtonIcon';
+import { makeLogin } from 'core/utils/request';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -7,18 +8,16 @@ import './styles.scss';
 
 //modelo de dados a ser enviado pelo ReactHookForm
 type FormData = {
-   email: string;
+   username: string;
    password: string;
 }
 
 const Login = () => {
    //iniciando o ReactHook Form
    const { register, handleSubmit } = useForm<FormData>();
-   const onSubmit = (data: FormData) => {
-      return (
-         console.log(data) //data pode ser qualquer nome
-         // chamar API de autenticação
-      );
+   const onSubmit = (data: FormData) => { //variável data pode ser qualquer nome
+      console.log(data);
+      makeLogin(data); // chamar API de autenticação
    }
 
    return (
@@ -30,7 +29,7 @@ const Login = () => {
                   className="form-control input-base margin-button-30" //form-control é do bootstrap
                   placeholder="Email"
                   //integração com o ReactHook Form
-                  name="email"
+                  name="username"
                   ref={register}
                />
                <input 
@@ -46,8 +45,6 @@ const Login = () => {
                </Link>
                <div className="login-submit">
                   <ButtonIcon textButton="Logar"/>
-                  <Link to="/admin/products/create" className="login-link-recover" >
-                  </Link>
                </div>
                <div className="not-registered-content">
                   <span className="not-registered-content-text">
