@@ -1,8 +1,10 @@
+import userEvent from '@testing-library/user-event';
 import ButtonIcon from 'core/components/ButtonIcon';
+import { saveSessionData } from 'core/utils/auth';
 import { makeLogin } from 'core/utils/request';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AuthCard from '../Card';
 import './styles.scss';
 
@@ -15,13 +17,18 @@ type FormData = {
 const Login = () => {
    //iniciando o ReactHook Form
    const { register, handleSubmit } = useForm<FormData>();
+   //inicia captura de erros
    const [hasError, setHasError] = useState(false);
+   //redireciona
+   const history = useHistory();
 
    const onSubmit = (data: FormData) => { //variável data pode ser qualquer nome
       //console.log(data);
       makeLogin(data) // chamar API de autenticação
          .then( response => {
-            setHasError(false);
+            setHasError(false)
+            saveSessionData(response.data);
+            history.push('/admin')
          })
          .catch(() => {
             setHasError(true);
