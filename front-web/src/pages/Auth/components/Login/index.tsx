@@ -16,7 +16,7 @@ type FormData = {
 
 const Login = () => {
    //iniciando o ReactHook Form
-   const { register, handleSubmit } = useForm<FormData>();
+   const { register, handleSubmit, errors } = useForm<FormData>();
    //inicia captura de erros
    const [hasError, setHasError] = useState(false);
    //redireciona
@@ -35,7 +35,6 @@ const Login = () => {
          })
    }
    
-
    return (
       <div className="login-container" >
          <AuthCard title="Login">
@@ -46,22 +45,46 @@ const Login = () => {
                </div>
             )}
             <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-               <input
-                  type="email" //type é do html5
-                  className="form-control input-base margin-button-30" //form-control é do bootstrap
-                  placeholder="Email"
-                  //integração com o ReactHook Form
-                  name="username"
-                  ref={register({ required: true })}
-               />
-               <input
-                  type="password" //type é do html5
-                  className="form-control input-base" //form-control é do bootstrap
-                  placeholder="Senha"
-                  //integração com o ReactHook Form
-                  name="password"
-                  ref={register({ required: true })}
-               />
+               <div className="margin-button-30">
+                  <input
+                     type="email" //type é do html5
+                     className={`form-control input-base ${errors.username ? 'is-invalid': ''}`} //form-control é do bootstrap
+                     placeholder="Email"
+                     //integração com o ReactHook Form
+                     name="username"
+                     //ref={register({ required: true })}
+                     ref={register({ //padrao ReactHook Form
+                        required: "Campo obrigatório",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: "Email inválido!" 
+                        }
+                      })}
+                  />
+                  {errors.username && (
+                     <div className="invalid-feedback d-block">
+                        {errors.username.message}
+                     </div>
+                  )}
+               </div>
+               <div className="margin-button-20">
+                  <input
+                     type="password" //type é do html5
+                     className={`form-control input-base ${errors.username ? 'is-invalid': ''}`} //form-control é do bootstrap
+                     placeholder="Senha"
+                     //integração com o ReactHook Form
+                     name="password"
+                     //ref={register({ required: true })}
+                     ref={register({ //padrao ReactHook Form
+                        required: "Campo obrigatório", 
+                      })}
+                  />
+                  {errors.password && (
+                     <div className="invalid-feedback d-block">
+                        {errors.password.message}
+                     </div>
+                  )}
+               </div>
                <Link to="/admin/auth/recover" className="login-link-recover" >
                   Esqueci a senha?
                </Link>
