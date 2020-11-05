@@ -1,4 +1,4 @@
-import { makeRequest } from 'core/utils/request';
+import { makePrivateRequest } from 'core/utils/request';
 import React, { useState } from 'react';
 import BaseFormAdmin from '../../BaseFormAdmin';
 import './styles.scss';
@@ -37,7 +37,7 @@ const ProductForm = () => {
          imgUrl: 'https://carrefourbr.vtexassets.com/arquivos/ids/6425974/MP10836593_USADO---Xbox-360-Slim-4GB---Microsoft_1_Zoom.jpg?v=637343747981730000',
          categories: [{ id: formData.category}]
       }
-      makeRequest({ url:'/products', method:'POST', data: payload})
+      makePrivateRequest({ url:'/products', method:'POST', data: payload})
          .then( () => {
             setFormData({name:'', category:'', price:'', description: ''});
          })
@@ -63,7 +63,7 @@ const ProductForm = () => {
                      onChange={handleOnChange}>
                      <option value="categories">Categorias</option>
                      <option value="1">Livros</option>
-                     <option value="2">Eletônicos</option>
+                     <option value="2">Eletrônicos</option>
                      <option value="3">Computadores</option>
                   </select>
                   <input

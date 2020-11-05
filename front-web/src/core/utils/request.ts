@@ -1,6 +1,6 @@
 import axios, {Method} from 'axios';
 import qs from 'qs';
-import { CLIENT_ID, CLIENT_SECRECT } from './auth';
+import { CLIENT_ID, CLIENT_SECRECT, getSessionData } from './auth';
 
 type RequestParams = {
    method?: Method;
@@ -29,7 +29,18 @@ export const makeRequest = ({ method = 'GET', url, data, params, headers }: Requ
    });
 }
 
-//faz a requisão de login passando os parametros necessários
+//faz requisões de login em rotas que solicita de autorização
+export const makePrivateRequest = ({ method = 'GET', url, data, params }: RequestParams) => {
+   const sessionData = getSessionData();
+
+   const headers = {
+   'Authorization': `Bearer ${sessionData.access_token}`
+   }
+
+   return makeRequest({ method, url, data, params, headers })
+}
+
+//faz requisões de login passando os parametros necessários
 export const makeLogin = (loginData: LoginData) => {
    const token = `${CLIENT_ID}:${CLIENT_SECRECT}`;
    const headers = {
