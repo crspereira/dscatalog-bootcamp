@@ -1,15 +1,19 @@
-import Auth from 'pages/Auth';
+
 import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from './core/components/Navbar';
 import Admin from './pages/Admin';
 import Catalog from './pages/Catalog';
 import ProductDetails from './pages/Catalog/components/ProductDetails';
 import Home from './pages/Home';
+import Auth from 'pages/Auth';
+import history from './core/utils/history';
 
 const Routes = () => {
 	return (
-		<BrowserRouter>
+		//BrowserRouter faz o gerenciamento automaticamente
+		//Router o dev faz o gerenciamento com history.ts
+		<Router history={history}>
 			<Navbar />
 			<Switch>
 				<Route path="/" exact>
@@ -30,7 +34,7 @@ const Routes = () => {
 					<Admin />
 				</Route>
 			</Switch>
-		</BrowserRouter>
+		</Router>
 	);
 }
 
