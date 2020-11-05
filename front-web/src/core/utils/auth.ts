@@ -1,7 +1,10 @@
+import JwtDecode from "jwt-decode";
+
 //constantes
 export const CLIENT_ID = 'dscatalog';
 export const CLIENT_SECRECT = 'dscatalog123';
 
+//tipos
 type LoginResponse = {
     access_token: string;
     token_type: string;
@@ -10,6 +13,13 @@ type LoginResponse = {
     userFirstName: string;
     userId: number;
 }
+type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+type AccessToken = {
+    exp: number;
+    username: string;
+    authorities: Role[];
+}
+
 
 //salva os dados da sessão
 export const saveSessionData = (loginResponse: LoginResponse ) => {
@@ -23,4 +33,30 @@ export const getSessionData = () => {
 
     //as: é um type casting - recurso do typescript. No caso transformando parseSessionData em LoginData
     return parsedSessionData as LoginResponse; 
+}
+
+//converte o token em json
+export const getAcessTokenDecoded = () => {
+    const sessionData = getSessionData();
+    const tokenDecoder = JwtDecode(sessionData.access_token);
+
+    //as: é um type casting - recurso do typescript. No caso transformando tokenDecoder em AccessToken
+    return tokenDecoder as AccessToken;
+}
+
+//verifica se token esta expirado no localStorage do navegador
+export const isTokenValid = () => {
+    const { exp } = getAcessTokenDecoded(); //{ }: destructing retorna a propiedades do metodo atribuido
+
+    if (Date.now() <= exp * 1000) {
+        return true;
+    }
+    return false;
+}
+
+//checa se usuário esta de fato autenticado
+export const isAuthenticated = () => {
+    //verifica se possui 'authData' e 'access_token' no localStorage do navegador e não esta expirado
+    const sessionData = getSessionData();
+    return sessionData.access_token && isTokenValid();
 }
