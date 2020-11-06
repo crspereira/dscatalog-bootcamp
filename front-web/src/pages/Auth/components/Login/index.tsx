@@ -4,7 +4,7 @@ import { saveSessionData } from 'core/utils/auth';
 import { makeLogin } from 'core/utils/request';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import AuthCard from '../Card';
 import './styles.scss';
 
@@ -14,6 +14,10 @@ type FormData = {
    password: string;
 }
 
+type LocationState = {
+   from: string;
+}
+
 const Login = () => {
    //iniciando o ReactHook Form
    const { register, handleSubmit, errors } = useForm<FormData>();
@@ -21,6 +25,9 @@ const Login = () => {
    const [hasError, setHasError] = useState(false);
    //redireciona
    const history = useHistory();
+   //possibilita o armazenamento do estado de onde o usuário queria ir
+   const location = useLocation<LocationState>();
+   const { from } = location.state || { from: { pathname: "/admin" }};
 
    const onSubmit = (data: FormData) => { //variável data pode ser qualquer nome
       //console.log(data);
@@ -28,7 +35,7 @@ const Login = () => {
          .then( response => {
             setHasError(false)
             saveSessionData(response.data);
-            history.push('/admin')
+            history.replace(from) //"push" emplinha as rotas e "replace" sobrescreve
          })
          .catch(() => {
             setHasError(true);
