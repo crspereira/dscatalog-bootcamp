@@ -63,7 +63,7 @@ export const isAuthenticated = () => {
     return sessionData.access_token && isTokenValid();
 }
 
-//permissão pelo perfil do BackEnd
+//permissão em ROTAS por perfil de usuário vindos do BackEnd
 export const isAllowedByRole = (routeRoles: Role[] = []) => {
     if (routeRoles.length === 0) {
         return true;
