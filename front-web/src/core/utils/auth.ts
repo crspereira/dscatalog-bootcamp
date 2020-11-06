@@ -13,7 +13,9 @@ type LoginResponse = {
     userFirstName: string;
     userId: number;
 }
-type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+
+export type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+
 type AccessToken = {
     exp: number;
     username: string;
@@ -59,4 +61,19 @@ export const isAuthenticated = () => {
     //verifica se possui 'authData' e 'access_token' no localStorage do navegador e não esta expirado
     const sessionData = getSessionData();
     return sessionData.access_token && isTokenValid();
+}
+
+//permissão pelo perfil do BackEnd
+export const isAllowedByRole = (routeRoles: Role[] = []) => {
+    if (routeRoles.length === 0) {
+        return true;
+    }
+    //destruction substitui ao metodo getAcessToken
+    /*const userToken = getAcessTokenDecoded();
+      const userRoles = userToken.authorities;
+      return routeRoles.some(role => userRoles.includes(role));*/ 
+
+    const { authorities } = getAcessTokenDecoded(); //{ }: destructing retorna a propiedades do metodo atribuido
+
+    return routeRoles.some(role => authorities.includes(role));
 }

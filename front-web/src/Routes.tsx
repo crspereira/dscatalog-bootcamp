@@ -8,7 +8,6 @@ import ProductDetails from './pages/Catalog/components/ProductDetails';
 import Home from './pages/Home';
 import Auth from 'pages/Auth';
 import history from './core/utils/history';
-import PrivateRoute from 'core/components/Routs/PrivateRouter';
 
 const Routes = () => {
 	return (
@@ -31,9 +30,9 @@ const Routes = () => {
 					<Auth />
 				</Route>
 				<Redirect from="/admin" to="/admin/products" exact />
-				<PrivateRoute path="/admin"> {/*route customizado "PrivateRoutes.tsx" para verificar a autenticação do usuário*/}
+				<Route path="/admin"> {/*route customizado "PrivateRoutes.tsx" para verificar a autenticação do usuário*/}
 					<Admin />
-				</PrivateRoute>
+				</Route>
 			</Switch>
 		</Router>
 	);
