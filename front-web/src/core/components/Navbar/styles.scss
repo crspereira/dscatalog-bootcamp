@@ -3,6 +3,7 @@
     color: #ffffff;
     align-items: center;
     padding-left: 40px;
+    padding-right: 40px;
     margin-left: 0;
     margin-right: 0;
 }
@@ -14,20 +15,25 @@
 }
 .main-menu {
     display: flex;
-    font-size: 18px;
-    width: 380px;
-    justify-content: space-between;
-    a {
-        font-style: normal;
-        color: rgba(255, 255, 255, 0.5);
-        &.active {
-            font-weight: bold;
-            color: #FFFFFF;
+    //font-size: 18px;
+    justify-content: center;
 
-        }
-        &:hover {
-            color: #FFFFFF;
-        }
+    li:nth-child(2) { //:pseudo seletor do css
+        margin-right: 85px;
+        margin-left: 85px;
     }
+}
 
+.nav-link {
+    font-style: normal;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.5);
+    &.active {
+        font-weight: bold;
+        color: #FFFFFF;
+
+    }
+    &:hover {
+        color: #FFFFFF;
+    }
 }

@@ -1,7 +1,7 @@
 import axios, {Method} from 'axios';
 import qs from 'qs';
-import { CLIENT_ID, CLIENT_SECRECT, getSessionData } from './auth';
-import history from './history';
+import { CLIENT_ID, CLIENT_SECRECT, getSessionData, logout } from './auth';
+//import history from './history';
 
 type RequestParams = {
    method?: Method;
@@ -28,7 +28,8 @@ axios.interceptors.response.use(function(response) {
 }, function (error) { //captura qualquer erro fora do range 200
       if (error.response.status === 401) {
          //console.log('erro 401 capturado');
-         history.push('/admin/auth/login'); //history costumizado com o <Router> no Routers.tsx e History.ts
+         //history.push('/auth/login'); //history costumizado com o <Router> no Routers.tsx e History.ts
+         logout();
       }
 
    return Promise.reject(error);

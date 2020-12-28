@@ -1,4 +1,5 @@
 import JwtDecode from "jwt-decode";
+import history from './history';
 
 //constantes
 export const CLIENT_ID = 'dscatalog';
@@ -18,7 +19,7 @@ export type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
 
 type AccessToken = {
     exp: number;
-    username: string;
+    user_name: string;
     authorities: Role[];
 }
 
@@ -40,10 +41,14 @@ export const getSessionData = () => {
 //converte o token em json
 export const getAcessTokenDecoded = () => {
     const sessionData = getSessionData();
-    const tokenDecoder = JwtDecode(sessionData.access_token);
-
-    //as: é um type casting - recurso do typescript. No caso transformando tokenDecoder em AccessToken
-    return tokenDecoder as AccessToken;
+    try { 
+        const tokenDecoder = JwtDecode(sessionData.access_token);
+        //as: é um type casting - recurso do typescript. No caso transformando tokenDecoder em AccessToken
+        return tokenDecoder as AccessToken;
+    } catch (error) {
+        return {} as AccessToken;
+    }
+    
 }
 
 //verifica se token esta expirado no localStorage do navegador
@@ -75,5 +80,11 @@ export const isAllowedByRole = (routeRoles: Role[] = []) => {
 
     const { authorities } = getAcessTokenDecoded(); //{ }: destructing retorna a propiedades do metodo atribuido
 
-    return routeRoles.some(role => authorities.includes(role));
+    return routeRoles.some(role => authorities?.includes(role));
+}
+
+//remove a chave e autenticação do LocalStorage
+export const logout = () => {
+    localStorage.removeItem('authData');
+    history.replace('/auth/login');
 }
