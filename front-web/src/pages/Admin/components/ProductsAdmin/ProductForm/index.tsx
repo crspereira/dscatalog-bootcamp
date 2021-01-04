@@ -1,87 +1,70 @@
 import { makePrivateRequest } from 'core/utils/request';
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import BaseFormAdmin from '../../BaseFormAdmin';
 import './styles.scss';
 
 type FormState = {
    name: string,
-   category: string,
    price: string,
-   description: string
+   description: string,
+   imageUrl: string
 }
 
-type FormEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
-
 const ProductForm = () => {
-   const [formData, setFormData] = useState<FormState>({
-      name: '',
-      category: '',
-      price: '',
-      description: ''
-   });
-   //caputurando o evento com a variável "event" do tipo "React.ChangeEvent<HTMLInputElement>"
-   const handleOnChange = (event: FormEvent) => {
-      //altera a variável name com os valor dos eventos armazenados em value
-      const name = event.target.name;
-      const value = event.target.value;
-      //conserva tudo de informação "data". E a função retorna para o setFormData tudo que já
-      //existia armazenado "...data" no formulario, acrescentado da propriedade dinâmica [name]: value
-      setFormData(data => ({ ...data, [name]: value }));
+   const { register, handleSubmit } = useForm<FormState>();
+ 
+   const onSubmit = (data: FormState) => {
+      //console.log(data);
+      makePrivateRequest({ url:'/products', method:'POST', data });
    }
 
-   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const payload = {
-         ...formData,
-         //imgUrl: 'https://imagens.canaltech.com.br/ofertas/o14307.1.jpg',
-         imgUrl: 'https://carrefourbr.vtexassets.com/arquivos/ids/6425974/MP10836593_USADO---Xbox-360-Slim-4GB---Microsoft_1_Zoom.jpg?v=637343747981730000',
-         categories: [{ id: formData.category}]
-      }
-      makePrivateRequest({ url:'/products', method:'POST', data: payload})
-         .then( () => {
-            setFormData({name:'', category:'', price:'', description: ''});
-         })
-      console.log(payload);
-
-   }
    return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
          <BaseFormAdmin title="Cadastrar um Produto">
             <div className="row mt-4">
                <div className="col-6">
                   <input
-                     value={formData.name}
+                     ref={register({ required: "Campo Obrigatório" })}
                      name="name"
                      type="text"
-                     className="form-control"
-                     onChange={handleOnChange}
-                     placeholder="Nome do Produto" />
-                  <select
+                     className="form-control margin-botton-30 input-base"
+                     placeholder="Nome do Produto"
+                  />
+                  {/* <select
                      value={formData.category}
                      name="category"
-                     className="form-control mt-3"
+                     className="form-control mb-5"
                      onChange={handleOnChange}>
                      <option value="categories">Categorias</option>
                      <option value="1">Livros</option>
                      <option value="2">Eletrônicos</option>
                      <option value="3">Computadores</option>
-                  </select>
+                  </select> */}
                   <input
-                     value={formData.price}
+                     ref={register({ required: "Campo Obrigatório" })}
                      name="price"
+                     type="number"
+                     className="form-control margin-botton-30 input-base"
+                     placeholder="Preço"
+                  />
+                  <input
+                     ref={register({ required: "Campo Obrigatório" })}
+                     name="imgUrl"
                      type="text"
-                     className="form-control mt-3"
-                     onChange={handleOnChange}
-                     placeholder="Preço" />
+                     className="form-control margin-botton-30 input-base"
+                     placeholder="URL da Imagem"
+                  />
                </div>
                <div className="col-6">
                   <textarea
-                     value={formData.description}
+                     ref={register({ required: "Campo Obrigatório" })}
                      name="description"
                      cols={30}
                      rows={10}
-                     className="form-control"
-                     onChange={handleOnChange} />
+                     className="form-control input-base"
+                     placeholder="Descrição"
+                  />
                </div>
             </div>
          </BaseFormAdmin>

@@ -9,7 +9,7 @@ import AuthCard from '../Card';
 import './styles.scss';
 
 //modelo de dados a ser enviado pelo ReactHookForm
-type FormData = {
+type FormState = {
    username: string;
    password: string;
 }
@@ -20,7 +20,7 @@ type LocationState = {
 
 const Login = () => {
    //iniciando o ReactHook Form
-   const { register, handleSubmit, errors } = useForm<FormData>();
+   const { register, handleSubmit, errors } = useForm<FormState>();
    //inicia captura de erros
    const [hasError, setHasError] = useState(false);
    //redireciona
@@ -29,7 +29,7 @@ const Login = () => {
    const location = useLocation<LocationState>();
    const { from } = location.state || { from: { pathname: "/admin" }};
 
-   const onSubmit = (data: FormData) => { //variável data pode ser qualquer nome
+   const onSubmit = (data: FormState) => { //variável data pode ser qualquer nome
       //console.log(data);
       makeLogin(data) // chamar API de autenticação
          .then( response => {
@@ -52,7 +52,7 @@ const Login = () => {
                </div>
             )}
             <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-               <div className="margin-button-30">
+               <div className="margin-botton-30">
                   <input
                      type="email" //type é do html5
                      className={`form-control input-base ${errors.username ? 'is-invalid': ''}`} //form-control é do bootstrap
