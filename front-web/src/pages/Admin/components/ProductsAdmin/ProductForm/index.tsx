@@ -21,7 +21,7 @@ const ProductForm = () => {
       console.log(data);
       makePrivateRequest({ url:'/products', method:'POST', data })
          .then(() => {
-            toast.info('Produto Salvo com Sucesso!');
+            toast.success('Produto Salvo com Sucesso!');
             history.push('/admin/products');
          })
          .catch(() => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import Card from '../Cards';
 import './styles.scss';
 
 const ProductsAdminList = () => {
@@ -13,7 +14,11 @@ const ProductsAdminList = () => {
          <button className="btn btn-primary btn-lg" onClick={handleCreate}>
             ADICIONAR
          </button>
-         <h1>Product Listing Component</h1>
+         <div className="admin-list-container">
+            <Card />
+            <Card />
+            <Card />
+         </div>
       </div>
    );
 }
