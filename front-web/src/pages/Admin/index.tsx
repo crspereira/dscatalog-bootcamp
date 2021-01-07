@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
-import NavbarAdmin from './components/NavbarAdmin';
-import ProductsAdmin from './components/ProductsAdmin';
+import NavbarAdmin from './components/Navbar';
+import ProductsAdmin from './components/Products';
 import PrivateRoute from 'core/components/Routs/PrivateRouter';
 import './styles.scss'
 

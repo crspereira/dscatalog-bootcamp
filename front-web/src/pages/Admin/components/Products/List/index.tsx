@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import Card from '../Cards';
 import './styles.scss';
 
-const ProductsAdminList = () => {
+const List = () => {
    //Passo2: lista componente
    const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
    const [isLoading, setIsLoading] = useState(false);
@@ -14,13 +14,15 @@ const ProductsAdminList = () => {
    const [activePage, setActivePage] = useState(0);
    const history = useHistory();
 
-   console.log(productsResponse);
+   //console.log(productsResponse);
 
    //Passo1: inicia componente
    useEffect(() => {
        const params = {
            page: activePage,
-           linesPerPage: 4
+           linesPerPage: 4,
+           direction: 'DESC',
+           orderBy: 'id'
        }
        //inica o loader
        setIsLoading(true);
@@ -59,4 +61,4 @@ const ProductsAdminList = () => {
    );
 }
 
-export default ProductsAdminList;
+export default List;
