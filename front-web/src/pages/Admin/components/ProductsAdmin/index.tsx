@@ -7,7 +7,7 @@ import './styles.scss';
 const ProductsAdmin = () => {
    return (
       <div>
-         <Link to="/admin/products" className="mr-5">
+         {/* <Link to="/admin/products" className="mr-5">
             List
          </Link>
          <Link to="/admin/products/create" className="mr-5">
@@ -15,7 +15,7 @@ const ProductsAdmin = () => {
          </Link>
          <Link to="/admin/products/10" className="mr-5">
             Edit
-         </Link>
+         </Link> */}
 
          <Switch>
             <Route path="/admin/products" exact>
