@@ -17,6 +17,12 @@
    margin-bottom: 45px;
 }
 
+.btn-cancel {
+   color: #dc3545;
+   text-transform: uppercase;
+   font-weight: 700;
+}
+
 .btn-edit {
    color: #9E9E9E;
    text-transform: uppercase;
@@ -24,6 +30,11 @@
 }
 
 .btn-delete {
+   text-transform: uppercase;
+   font-weight: 700;
+}
+
+.btn-salve {
    text-transform: uppercase;
    font-weight: 700;
 }

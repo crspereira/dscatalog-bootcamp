@@ -22,12 +22,12 @@ const BaseFormAdmin = ({ title, children}: Props) => {
 
          <div className="admin-base-form-actions">
             <button 
-               className="btn btn-outline-danger border-radius-10 mr-3"
+               className="btn btn-outline-danger border-radius-10 mr-3 btn-cancel"
                onClick={handleCancel}>
-               CANCELAR
+               Cancelar
             </button>
-            <button className="btn btn-primary border-radius-10">
-               SALVAR
+            <button className="btn btn-primary border-radius-10 btn-salve">
+               Salvar
             </button>
          </div>
       </div>
