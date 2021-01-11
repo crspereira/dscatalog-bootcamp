@@ -1,6 +1,6 @@
-import ProductPrice from 'core/components/ProductPrice';
-import { Product } from 'core/types/Product';
 import React from 'react';
+import ProductPrice from 'core/components/ProductPrice';
+import { Category, Product } from 'core/types/Product';
 import { Link } from 'react-router-dom';
 import './styles.scss';
 
@@ -9,7 +9,8 @@ type Props = {
    onRemove: (productId: number) => void;
 }
 
-const Card = ({ product, onRemove }: Props) => {
+const Card = ({ product, onRemove}: Props) => {
+   
    return (
       <div className="card-base product-card-admin">
          <div className="row">
