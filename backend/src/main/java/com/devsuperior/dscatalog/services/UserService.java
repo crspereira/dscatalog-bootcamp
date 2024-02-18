@@ -36,7 +36,7 @@ import com.devsuperior.dscatalog.services.execeptions.DatabaseException;
 import com.devsuperior.dscatalog.services.execeptions.ResourceNotFoundException;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService { //UserDetailsService interface para SpringSecuitiry Autentication
 
 	private static Logger logger = LoggerFactory.getLogger(UserService.class);
 	

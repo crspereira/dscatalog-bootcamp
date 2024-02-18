@@ -19,10 +19,10 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import com.devsuperior.dscatalog.components.JwtTokenEnhancer;
 
 @Configuration
-@EnableAuthorizationServer
+@EnableAuthorizationServer //Classe para configuração do SpringCloud Oauth 2
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-	// properties
+	// properties externalzation
 	@Value("${security.oauth2.client.client-id}")
 	private String clientId;
 	@Value("${security.oauth2.client.client-secret}")
@@ -48,19 +48,25 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
 	}
 
-	@Override
+	@Override //configuraçao de usuário e senha da aplicação
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient(clientId).secret(passwordEncoder.encode(clientSecret)).scopes("read", "write")
-				.authorizedGrantTypes("password").accessTokenValiditySeconds(jwtDuration);
+		clients.inMemory()
+			   .withClient(clientId) //usuário
+			   .secret(passwordEncoder.encode(clientSecret)) //senha
+			   .scopes("read", "write")
+			   .authorizedGrantTypes("password") //frase se autorização
+			   .accessTokenValiditySeconds(jwtDuration);
 	}
 
-	@Override
+	@Override //configuracao de como se dará a segurança, no caso um token JWT
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
 		TokenEnhancerChain chain = new TokenEnhancerChain();
 		chain.setTokenEnhancers(Arrays.asList(accessTokenConverter, tokenEnhancer));
 
-		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore)
-				.accessTokenConverter(accessTokenConverter).tokenEnhancer(chain);
+		endpoints.authenticationManager(authenticationManager)
+				 .tokenStore(tokenStore)
+				 .accessTokenConverter(accessTokenConverter)
+				 .tokenEnhancer(chain);
 	}
 }

@@ -21,7 +21,7 @@ import org.springframework.web.filter.CorsFilter;
 import java.util.Arrays;
 
 @Configuration
-@EnableResourceServer
+@EnableResourceServer //Classe para configuração do SpringCloud Oauth 2
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	// properties
@@ -53,9 +53,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             http.headers(headers -> headers.frameOptions().disable());
 		}
 
-        http.authorizeRequests(requests -> requests.antMatchers(PUBLIC).permitAll().antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN)
-                .permitAll().antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("OPERATOR", "ADMIN").antMatchers(ADMIN)
-                .hasAnyRole("ADMIN").anyRequest().authenticated());
+        http.authorizeRequests(requests -> requests
+        		.antMatchers(PUBLIC).permitAll()
+        		.antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()
+        		.antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("OPERATOR", "ADMIN")
+        		.antMatchers(ADMIN).hasAnyRole("ADMIN")
+        		.anyRequest().authenticated());
 
         // Libera o CORES
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));

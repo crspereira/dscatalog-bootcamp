@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name="tb_user")
-public class User implements UserDetails, Serializable{
+public class User implements UserDetails, Serializable{ //UserDetails interface para SpringSecuitiry Autentication
 	private static final long serialVersionUID = 1L;
 	
 	//instâncias de classse - TEM

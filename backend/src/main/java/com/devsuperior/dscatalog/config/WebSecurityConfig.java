@@ -11,32 +11,43 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //Classe para configuração do SpringSecurity
 public class WebSecurityConfig {
+
+	//Metodo para liberação de Tudo para os Tests. Se descomentato Ignora a autenticação
+//	@Bean
+//    WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().antMatchers("/**");
+//    }
 
 	@Value("${jwt.secret}")
 	private String jwtSecret;
-
+	
+	//Spring Security Depedencia
+	//para Encriptação da Senha
 	@Bean
 	BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-	@Bean
-	JwtAccessTokenConverter accessTokenConverter() {
-		JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();
-		tokenConverter.setSigningKey(jwtSecret);
-		return tokenConverter;
-	}
-
-	@Bean
-	JwtTokenStore tokenStore() {
-		return new JwtTokenStore(accessTokenConverter());
-	}
-
+	//para Autenticação
 	@Bean
 	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
 			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
+	
+	//Spring Cloud OAuth2 Dependencia
+	//cria e assina o token
+	@Bean
+	JwtAccessTokenConverter accessTokenConverter() {
+		JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();
+		tokenConverter.setSigningKey(jwtSecret); //asinatura do token
+		return tokenConverter;
+	}
+	//retorna token assinado
+	@Bean
+	JwtTokenStore tokenStore() {
+		return new JwtTokenStore(accessTokenConverter());
+	}
+	
 }
