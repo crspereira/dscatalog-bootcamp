@@ -35,5 +35,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	 * 
 	 *(COALESCE(:categories) IS NULL -> nao funaciona com H2 dataBase
 	 **/
+	
+	//busca auxiliar para resolver o problema de N+1. Busca apenas as categorias dos produtos que pertencam a lista "products"
+	//Join Fetch já tras a lista de Categorias e armazena na memoria. Funciona apenas com Listas. 
+	@Query("SELECT obj FROM Product obj JOIN FETCH obj.categories WHERE obj IN :products")
+	List<Product> findProductsWithCategories(List<Product> products);
 
 }

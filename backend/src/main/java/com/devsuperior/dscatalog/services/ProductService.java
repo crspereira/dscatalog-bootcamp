@@ -61,16 +61,24 @@ public class ProductService {
 	//com paginação
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(Pageable pageable) {
-		Page<Product> list = repository.findAll(pageable);
-		return list.map(x -> new ProductDTO(x));
+		Page<Product> page = repository.findAll(pageable);
+		//tras as categorias peduradas no produto resolvendo o problema N+1 Consulta
+		repository.findProductsWithCategories(page.getContent());
+		//O dto utiliza-se do mapa de indentidade(pega da memoria as categorias)
+		//não precisando ir ao Banco de Dados várias vezes resolvendo o problema N+1 Consulta
+		return page.map(x -> new ProductDTO(x, x.getCategories()));
 	}
 	
 	//com paginação e com categoria
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPagedWithDetail(String name, Long categoryId, Pageable pageable) {
 		List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getReferenceById(categoryId));
-		Page<Product> list = repository.findPagedWithDetail(name.trim(), categories, pageable);
-		return list.map(x -> new ProductDTO(x));
+		Page<Product> page = repository.findPagedWithDetail(name.trim(), categories, pageable);
+		//instancia em memória os produtos com suas categorias peduradas
+		repository.findProductsWithCategories(page.getContent());
+		//O dto utiliza-se do mapa de indentidade(pega da memoria as categorias)
+		//não precisando ir ao Banco de Dados várias vezes resolvendo o problema N+1 Consulta
+		return page.map(x -> new ProductDTO(x, x.getCategories()));
 	}
 
 	@Transactional(readOnly = true)
