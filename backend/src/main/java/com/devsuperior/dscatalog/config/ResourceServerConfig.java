@@ -60,15 +60,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         		.antMatchers(ADMIN).hasAnyRole("ADMIN")
         		.anyRequest().authenticated());
 
-        // Libera o CORES
+        // Liberacao do CORS
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 	}
 
 	// Config Liberação do CORS
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
-
-		String[] origins = corsOrigins.split(",");
+		
+		//Lista de dominios externalizada para appplication.properties
+		String[] origins = corsOrigins.split(","); 
 
 		CorsConfiguration corsConfig = new CorsConfiguration();
 		corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
