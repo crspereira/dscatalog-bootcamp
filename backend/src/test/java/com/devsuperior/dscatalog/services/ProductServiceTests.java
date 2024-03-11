@@ -1,5 +1,6 @@
 package com.devsuperior.dscatalog.services;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 
 import java.util.List;
@@ -55,7 +56,7 @@ public class ProductServiceTests {
 		private Product product;
 		private Product newProduct;
 		private ProductDTO productDTO;
-		private Page<Product> products;
+		private Page<Product> productsPage;
 		private Category category;
 		
 		@BeforeEach
@@ -66,7 +67,7 @@ public class ProductServiceTests {
 		    categoryExistingId = 2L;
 		    product = ProductFactory.createNewProduct();
 		    productDTO = ProductFactory.creteNewProductDTO();
-		    products = new PageImpl<>(List.of(product)); //classe concreta do Page
+		    productsPage = new PageImpl<>(List.of(product)); //classe concreta do Page
 		    newProduct = ProductFactory.createNewProduct();
 		    category = CategoryFactory.createNewCategory();
 		    
@@ -74,7 +75,8 @@ public class ProductServiceTests {
 		    Mockito.when(productRepository.findById(existingId)).thenReturn(Optional.of(product));
 		    Mockito.when(productRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 		    
-		    Mockito.when(productRepository.findAll((Pageable)ArgumentMatchers.any())).thenReturn(products);
+		    Mockito.when(productRepository.findAll((Pageable)ArgumentMatchers.any())).thenReturn(productsPage);
+		    Mockito.when(productRepository.findPagedWithDetail(any(), any(), (Pageable)ArgumentMatchers.any())).thenReturn(productsPage);
 		    
 		    Mockito.when(productRepository.getReferenceById(existingId)).thenReturn(product);
 		    Mockito.when(productRepository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
@@ -119,6 +121,17 @@ public class ProductServiceTests {
 		//Assert
 		Assertions.assertNotNull(result);
 		Mockito.verify(productRepository, Mockito.times(1)).findAll(pageable);
+	}
+	
+	@Test
+	public void findAllPagedWithDetailShouldReturnPagedProductListFilteredByNameOrCategory() {
+		//Arrange
+		Pageable pageable = PageRequest.of(0, 10);
+		//Acting
+		Page<ProductDTO> result = service.findAllPagedWithDetail("", 0L, pageable);
+		//Assert
+		Assertions.assertNotNull(result);
+		Mockito.verify(productRepository, Mockito.times(1)).findPagedWithDetail("", null, pageable);
 	}
 	
 	@Test

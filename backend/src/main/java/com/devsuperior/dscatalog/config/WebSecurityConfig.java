@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableWebSecurity //Classe para configuração do SpringSecurity
 public class WebSecurityConfig {
 
-	//Metodo para liberação de Tudo para os Tests. Se descomentato Ignora a autenticação
+	//Metodo para liberação de Tudo para os Tests(sem mock de autenticacao). Se descomentato Ignora a autenticação
 //	@Bean
 //    WebSecurityCustomizer webSecurityCustomizer() {
 //        return (web) -> web.ignoring().antMatchers("/**");

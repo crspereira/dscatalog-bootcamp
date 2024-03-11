@@ -55,6 +55,20 @@ public class ProductServiceIntegrationTests {
 		Assertions.assertEquals(10, result.getSize());
 		Assertions.assertEquals(countTotalProducts, result.getTotalElements());
 	}
+	
+	@Test
+	public void findAllPagedWithDetailShouldReturnPageProductDTOFilteredByNameOrCategory() {
+		//Arrange
+		Pageable pageable = PageRequest.of(0, 10);
+		//Acting
+		Page<ProductDTO> result = service.findAllPagedWithDetail("", 0L, pageable);
+		//Assert
+		Assertions.assertNotNull(result);
+		Assertions.assertFalse(result.isEmpty());
+		Assertions.assertEquals(0, result.getNumber());
+		Assertions.assertEquals(10, result.getSize());
+		Assertions.assertEquals(countTotalProducts, result.getTotalElements());
+	}
 
 	@Test
 	public void findAllPagedShouldReturnSortedPageWhenSortByName() {
@@ -71,11 +85,36 @@ public class ProductServiceIntegrationTests {
 	}
 	
 	@Test
+	public void findAllPagedWithDetailShouldReturnSortedPageWhenSortByNameFilteredByNameOrCategory() {
+		//Arrange
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("name"));
+		//Acting
+		Page<ProductDTO> result = service.findAllPagedWithDetail("", 0L, pageable);
+		//Assert
+		Assertions.assertFalse(result.isEmpty());
+		Assertions.assertEquals("Macbook Pro", result.getContent().get(0).getName());
+		Assertions.assertEquals("PC Gamer", result.getContent().get(1).getName());
+		Assertions.assertEquals("PC Gamer Alfa", result.getContent().get(2).getName());
+		Assertions.assertEquals(countTotalProducts, result.getTotalElements());
+	}
+	
+	@Test
 	public void findAllPagedShouldReturnEmptyPageWhenPageDoesNotExist() {
 		//Arrange
 		Pageable pageable = PageRequest.of(50, 10);
 		//Acting
 		Page<ProductDTO> result = service.findAllPaged(pageable);
+		//Assert
+		Assertions.assertTrue(result.isEmpty());
+		Assertions.assertEquals(countTotalProducts, result.getTotalElements());
+	}
+	
+	@Test
+	public void findAllPagedWithDetailShouldReturnEmptyPageWhenPageFilteredByNameOrCategoryDoesNotExist() {
+		//Arrange
+		Pageable pageable = PageRequest.of(50, 10);
+		//Acting
+		Page<ProductDTO> result = service.findAllPagedWithDetail("", 0L, pageable);
 		//Assert
 		Assertions.assertTrue(result.isEmpty());
 		Assertions.assertEquals(countTotalProducts, result.getTotalElements());
@@ -98,7 +137,6 @@ public class ProductServiceIntegrationTests {
 				//Acting
 				service.delete(nonExistingId);
 		});
-	}
-	
+	}	
 	
 }
